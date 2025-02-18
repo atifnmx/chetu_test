@@ -1,0 +1,30 @@
+# Buildspec for the  logs micro-service in the production environment
+version: 0.2
+run-as: root
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 372715135235.dkr.ecr.us-east-1.amazonaws.com
+
+  build:
+    commands:
+      - echo Build started on $(date)
+      - TAG="image_$(date +'%Y%m%d_%H%M%S')"
+      - echo Building the Docker image with tag $TAG...
+      - docker build -t sb_prod_logs:$TAG .
+      - echo tagging the image
+      - docker tag sb_prod_logs:$TAG 372715135235.dkr.ecr.us-east-1.amazonaws.com/sb_prod_logs:$TAG
+
+  post_build:
+    commands:
+      - echo Build completed on $(date)
+      - echo Pushing the Docker image with tag $TAG...
+      - docker push 372715135235.dkr.ecr.us-east-1.amazonaws.com/sb_prod_logs:$TAG
+      - echo Writing image definition file...
+      - printf '[{"name":"sb_prod_logs","imageUri":"372715135235.dkr.ecr.us-east-1.amazonaws.com/sb_prod_logs:%s"}]' $TAG > imagedefinitions.json
+
+artifacts:
+  files: 
+      - imagedefinitions.json
