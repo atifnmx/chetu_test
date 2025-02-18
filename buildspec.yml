@@ -23,7 +23,7 @@ phases:
       - echo Pushing the Docker image with tag $TAG...
       - docker push 236774542954.dkr.ecr.us-east-1.amazonaws.com/dev_sai_ecr:$TAG
       - echo Writing image definition file...
-      - printf '[{"name":"sb_prod_logs","imageUri":"236774542954.dkr.ecr.us-east-1.amazonaws.com/dev_sai_ecr:%s"}]' $TAG > imagedefinitions.json
+      - printf '[{"name":"dev_sai_td","imageUri":"236774542954.dkr.ecr.us-east-1.amazonaws.com/dev_sai_ecr:%s"}]' $TAG > imagedefinitions.json
 
 artifacts:
   files: 
