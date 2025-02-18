@@ -6,7 +6,7 @@ phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
-      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 372715135235.dkr.ecr.us-east-1.amazonaws.com
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 236774542954.dkr.ecr.us-east-1.amazonaws.com
 
   build:
     commands:
@@ -15,15 +15,15 @@ phases:
       - echo Building the Docker image with tag $TAG...
       - docker build -t sb_prod_logs:$TAG .
       - echo tagging the image
-      - docker tag sb_prod_logs:$TAG 372715135235.dkr.ecr.us-east-1.amazonaws.com/sb_prod_logs:$TAG
+      - docker tag sb_prod_logs:$TAG 236774542954.dkr.ecr.us-east-1.amazonaws.com/dev_sai_ecr:$TAG
 
   post_build:
     commands:
       - echo Build completed on $(date)
       - echo Pushing the Docker image with tag $TAG...
-      - docker push 372715135235.dkr.ecr.us-east-1.amazonaws.com/sb_prod_logs:$TAG
+      - docker push 236774542954.dkr.ecr.us-east-1.amazonaws.com/dev_sai_ecr:$TAG
       - echo Writing image definition file...
-      - printf '[{"name":"sb_prod_logs","imageUri":"372715135235.dkr.ecr.us-east-1.amazonaws.com/sb_prod_logs:%s"}]' $TAG > imagedefinitions.json
+      - printf '[{"name":"test_sai_image","imageUri":"236774542954.dkr.ecr.us-east-1.amazonaws.com/dev_sai_ecr:%s"}]' $TAG > imagedefinitions.json
 
 artifacts:
   files: 
