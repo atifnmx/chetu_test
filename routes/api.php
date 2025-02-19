@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/test', function (Request $request) {
-    return ['name' => 'working... too'];
+    return ['name' => 'working... too.'];
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
