@@ -13,18 +13,18 @@ phases:
       - echo Build started on $(date)
       - TAG="image_$(date +'%Y%m%d_%H%M%S')"
       - echo Building the Docker image with tag $TAG...
-      - docker build -t sb_prod_logs:$TAG .
+      - docker build -t dev_sai_image:$TAG .
       - echo tagging the image
-      - docker tag sb_prod_logs:$TAG 236774542954.dkr.ecr.us-east-1.amazonaws.com/dev_sai_ecr:$TAG
+      - docker tag dev_sai_image:$TAG 236774542954.dkr.ecr.us-east-1.amazonaws.com/dev-sai-ecr:$TAG
 
   post_build:
     commands:
       - echo Build completed on $(date)
       - echo Pushing the Docker image with tag $TAG...
-      - docker push 236774542954.dkr.ecr.us-east-1.amazonaws.com/dev_sai_ecr:$TAG
+      - docker push 236774542954.dkr.ecr.us-east-1.amazonaws.com/dev-sai-ecr:$TAG
       - echo Writing image definition file...
-      - printf '[{"name":"test_sai_image","imageUri":"236774542954.dkr.ecr.us-east-1.amazonaws.com/dev_sai_ecr:%s"}]' $TAG > imagedefinitions.json
+      - printf '[{"name":"dev_sai_container","imageUri":"236774542954.dkr.ecr.us-east-1.amazonaws.com/dev-sai-ecr:%s"}]' $TAG > imagedefinitions.json
 
 artifacts:
-  files: 
-      - imagedefinitions.json
+  files:
+    - imagedefinitions.json
