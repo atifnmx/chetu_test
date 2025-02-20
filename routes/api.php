@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', function (Request $request) {
+    return ['name' => 'all done'];
+});
+
 Route::get('/test', function (Request $request) {
     return ['name' => 'working here...'];
 });
